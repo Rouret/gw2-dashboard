@@ -1,56 +1,72 @@
 <template>
   <div>
-    <recolte-line
-        recolte-name="Champs de la potence"
-        way-point="[&BGMAAAA=]"
-        :rewards="[ORES.SILVER,ORES.IRON]"
-    />
-    <recolte-line
-        recolte-name="Théâtre des délices"
-        way-point="[&BKYCAAA=]"
-        :rewards="[ORES.MITHRIL,WOOD.ELDER]"
-    />
-    <recolte-line
-        recolte-name="Détroit de la Malédiction"
-        way-point="[&BOUGAAA=]"
-        :rewards="[ORES.MITHRIL]"
-    />
-    <recolte-line
-        recolte-name="Crevasses d'Eautrouble"
-        way-point="[&BKgCAAA=]"
-        :rewards="[ORES.MITHRIL]"
-    />
+    <v-card>
+      <v-card-title>
+        Nutrition
+        <v-spacer></v-spacer>
+        <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table
+          v-model="selected"
+          :headers="RECOLTES_DATA.headers"
+          :items="RECOLTES_DATA.items"
+          :search="search"
+          show-select
+      >
+        <template v-slot:item.rewards="{ item }">
+          <v-chip-group>
+            <v-chip
+                v-for="reward in item.rewards"
+                :key="reward.alt"
+                class="ma-2"
+                color="indigo darken-3"
+                outlined
+                label
+            >
+              <v-img
+                  left
+                  :src="reward.url"
+                  :alt="reward.alt"
+                  width="20"
+                  height="20"
+                  class="mr-2"
+              >
+              </v-img>
+              {{reward.alt}}
+            </v-chip>
+          </v-chip-group>
+        </template>
+      </v-data-table>
+    </v-card>
   </div>
 </template>
 
 <script>
-import RecolteLine from "./RecolteLine";
+
+import { Recoltes } from "@/constants/Recoltes";
+import {RECOLTES_DATA} from '@/data/recoltes-data';
 
 export default {
   name: "Recolte",
-  components: {RecolteLine},
   data: () => ({
-    ORES: {
-      MITHRIL: {
-        url: "https://wiki.guildwars2.com/images/e/ee/Mithril_Ore.png",
-        alt: "Minerai de mithril"
-      },
-      IRON:{
-        url: "https://wiki.guildwars2.com/images/8/87/Iron_Ore.png",
-        alt: "Minerai de fer"
-      },
-      SILVER:{
-        url: "https://wiki-fr.guildwars2.com/images/thumb/a/a9/Minerai_d%27argent.png/55px-Minerai_d%27argent.png",
-        alt: "Minerai d'argent"
-      },
-    },
-    WOOD:{
-      ELDER :{
-        url: "https://wiki.guildwars2.com/images/a/a7/Elder_Wood_Log.png",
-        alt: "Rondin de bois ancestral"
-      }
+    Recoltes,
+    RECOLTES_DATA,
+    search:"",
+    selected:[]
+  }),
+  methods:{
+    customSearch(items, search,filter){
+      console.log(items)
+      console.log(search)
+      console.log(filter)
     }
-  })
+  }
 }
 </script>
 
