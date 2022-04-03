@@ -17,6 +17,7 @@
           :headers="RECOLTES_DATA.headers"
           :items="RECOLTES_DATA.items"
           :search="search"
+          :custom-filter="customSearch"
           show-select
       >
         <template v-slot:item.rewards="{ item }">
@@ -62,9 +63,15 @@ export default {
   }),
   methods:{
     customSearch(items, search,filter){
-      console.log(items)
-      console.log(search)
-      console.log(filter)
+      //recherche par nom
+      if(filter.name.toLowerCase().includes(search.toLowerCase())){
+        return true;
+      }
+      //recherche par ressource
+      else if(filter.rewards.filter(reward => reward.alt.toLowerCase().includes(search.toLowerCase())).length > 0){
+        return true;
+      }
+      return false;
     }
   }
 }
