@@ -2,12 +2,12 @@
   <div>
     <v-card>
       <v-card-title>
-        Nutrition
+        Récolte
         <v-spacer></v-spacer>
         <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
-            label="Search"
+            label="Rechercher"
             single-line
             hide-details
         ></v-text-field>
@@ -18,6 +18,7 @@
           :items="RECOLTES_DATA.items"
           :search="search"
           :custom-filter="customSearch"
+          item-key="name"
           show-select
       >
         <template v-slot:item.rewards="{ item }">
@@ -42,6 +43,14 @@
               {{reward.alt}}
             </v-chip>
           </v-chip-group>
+        </template>
+        <template v-slot:item.img="{ item }">
+          <v-img
+              :src="item.img"
+              :alt="item.name"
+              width="180"
+          >
+          </v-img>
         </template>
       </v-data-table>
     </v-card>
